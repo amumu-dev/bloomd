@@ -2,17 +2,15 @@
 # BUILDER - Used to build the bloomd binary
 ############
 
-FROM alpine:3.10.2 as BUILDER
+FROM alpine:3.20 as BUILDER
 
 WORKDIR /etc/bloomd
 
-RUN apk add --no-cache build-base gcc py-pip
-
-RUN pip install SCons
+RUN apk add --no-cache build-base gcc scons
 
 COPY deps deps
 
-RUN cd deps/check-0.9.8 && ./configure && make && make install
+RUN cd deps/check-0.9.8 && ./configure CFLAGS="-fcommon" && make && make install
 
 RUN cd /etc/bloomd
 
@@ -26,7 +24,7 @@ RUN scons
 # RUNNER - Use Bloomd binary generated in the builder above
 ############
 
-FROM alpine:3.10.2 as RUNNER
+FROM alpine:3.20 as RUNNER
 
 WORKDIR /etc/bloomd
 RUN mkdir /data
