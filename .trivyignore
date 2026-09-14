@@ -1,0 +1,4 @@
+# Accepted-risk CVEs for this image, one per line:
+#   CVE-ID exp:YYYY-MM-DD # reason
+# `exp:` is a native Trivy feature - once the date passes, Trivy stops
+# honoring the entry and the scan fails again, so these don't rot silently.
